@@ -1,0 +1,23 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="src/style.css">
+    <title>Conversor</title>
+</head>
+<body>
+    <h1>Conversor de assembly</h1>
+    <div class="wrapper">
+        <div class="texto"><textarea name="Digite o código aqui" id="codigo"></textarea></div>
+        <div class="texto" id = 'copy'><div class = 'show'></div></div>    
+    </div>
+    <button id="copy-button">Copiar</button>
+    <button onclick="gerar()">Converter</button>
+    <input type="checkbox" name="Hexadecimal" id="selected" value="true">
+    <label for="Hexadecimal">Hexadecimal</label>
+</body>
+<script src="src/data.js"></script>
+<script src="src/app.js"></script>
+
+</html>
