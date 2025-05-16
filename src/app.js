@@ -1,69 +1,88 @@
 function tipo(opcode) {
-    if (opcode === "000000")
-        return "r"
-    if (opcode === "000110" || opcode === "001011" || opcode === "001100")
-        return 'j'
-    return "i"
-}
-function imediato(im, bitWidth) {
-    v = Math.abs(+im).toString(2)
-    extensor = ""
-    for (let i = 0; i < bitWidth - v.length; i++)
-        extensor += '0'
-    v = extensor + v
-    if (+im < 0) {
-        v = (Math.pow(2, bitWidth) + Number(im)).toString(2)
-        while (v.length < bitWidth) {
-            v = '0' + v;
-        }
+    if (!opcode)
+        return null
+    switch (opcode) {
+        case '000000':
+            return 'r'
+        case '000110':
+        case '001011':
+        case '001100':
+            return 'j'
+        default:
+            return 'i'
     }
+}
+
+function bitWidth(tipo) {
+    const r = { 'r': 5, 'i': 16, 'j': 26 }
+    return r[tipo]
+}
+
+function imediato(im, bitWidth) {
+    im = Number(im)
+    let v = Math.abs(im).toString(2)
+    //console.log(im, v, bitWidth)
+    if (im < 0) {
+        v = (Math.pow(2, bitWidth) + im).toString(2)
+    }
+    v = v.padStart(bitWidth, '0')
+    //console.log(v)
     return v
 }
+
 function compilador(codigo) {
     const tokens = codigo.split(/\s*,\s*|\s+|\(|\)/).filter(parte => parte != "");
-    //console.log(tokens)
-    let trecho = '', word, opcode
+    let n = tokens.length
+    //console.log('o array', tokens)
+    let trecho = '', word, opcode = null
     for (let i in tokens) {
+        type = tipo(opcode)
         if (!isNaN(Number(tokens[i]))) {
-            word = imediato(tokens[i], (tipo(opcode) == 'i') ? 16 : 26)
+            let largura = bitWidth(type)
+            word = imediato(tokens[i], largura)
         } else if (tokens[i].includes("$")) {
-            word = register[tokens[i]]
+            word = register[tokens[i]] || registerN[tokens[i]]
+            if (tokens[0] == 'jr')
+                word = imediato(word, 26)
         } else {
             word = opcodes[tokens[i]]
             opcode = word
-            if (tipo(opcode) == 'r') {
+            type = tipo(opcode)
+            if (type == 'r' && tokens[i] != 'sll' && tokens[i] != 'slr') {
                 //console.log('antes', tokens)
                 tokens.push(tokens.splice(1, 1)[0])
-                //console.log('depois', tokens)
-            } else if (tipo(opcode == 'i')) {
-                //console.log('antes', tokens)
-                let aux = tokens[1]
-                tokens[1] = tokens[2]
-                tokens[2] = aux
-                //console.log('depois', tokens)
-            }
-            if (tokens[i] == 'lw' || tokens[i] == 'sw') {
+                console.log('depois', tokens)
+            } else if (tokens[i] == 'lw' || tokens[i] == 'sw') {
                 let temp = tokens[2]
                 tokens[2] = tokens[3]
                 tokens[3] = temp
                 temp = tokens[1]
                 tokens[1] = tokens[2]
                 tokens[2] = temp
+            } else if (type == 'i') {
+                //console.log('antes', tokens)
+                let aux = tokens[1]
+                tokens[1] = tokens[2]
+                tokens[2] = aux
+                //console.log('depois', tokens)
             }
         }
         //console.log(word)
         trecho = trecho + word
     }
     if (tipo(opcode) == 'r') {
-        trecho = trecho + '00000' + funct[tokens[0]]
+        if (tokens[0] == 'sll' || tokens[0] == 'slr') {
+            trecho = trecho.slice(0, 16) + '00000' + trecho.slice(16)
+        } else {
+            trecho = trecho + '00000'
+        }
+        trecho = trecho + funct[tokens[0]]
     }
     //console.log(trecho)
     return trecho
 }
 function hexadecimal(instrucao) {
-    let n = parseInt(instrucao, 2).toString(16)
-    while (n.length < 8)
-        n = '0' + n
+    let n = parseInt(instrucao, 2).toString(16).padStart(8, '0')
     return n
 }
 function gerar() {
@@ -85,10 +104,7 @@ document.addEventListener('DOMContentLoaded', function () {
     botaoCopiar.addEventListener('click', function () {
         const texto = conteudo.innerText;
 
-        navigator.clipboard.writeText(texto)/*
-            .then(() => {
-                //alert('Conteúdo copiado para a área de transferência!');
-            })*/
+        navigator.clipboard.writeText(texto)
             .catch(err => {
                 console.error('Falha ao copiar para a área de transferência: ', err);
                 alert('Erro ao copiar o conteúdo.');
