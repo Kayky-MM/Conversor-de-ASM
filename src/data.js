@@ -6,8 +6,6 @@ const opcodes = {
   and: "000000",
   or: "000000",
   slt: "000000",
-  sll: "000000",
-  slr: "000000",
   addi: "000001",
   subi: "000010",
   muli: "000011",
@@ -19,7 +17,9 @@ const opcodes = {
   bne: "001001",
   slti: "001010",
   jr: "001011",
-  jal: "001100"
+  jal: "001100",
+  sll: "001101",
+  slr: "001110"
 };
 const register = {
   "$zero": "00000",

@@ -3,6 +3,8 @@ function tipo(opcode) {
         return null
     switch (opcode) {
         case '000000':
+        case "001101":
+        case "001110":
             return 'r'
         case '000110':
         case '001011':
@@ -48,10 +50,12 @@ function compilador(codigo) {
             word = opcodes[tokens[i]]
             opcode = word
             type = tipo(opcode)
-            if (type == 'r' && tokens[i] != 'sll' && tokens[i] != 'slr') {
+            if (type == 'i' || (tokens[i] == 'sll' || tokens[i] == 'slr')){
                 //console.log('antes', tokens)
-                tokens.push(tokens.splice(1, 1)[0])
-                console.log('depois', tokens)
+                let aux = tokens[1]
+                tokens[1] = tokens[2]
+                tokens[2] = aux
+                //console.log('depois', tokens)
             } else if (tokens[i] == 'lw' || tokens[i] == 'sw') {
                 let temp = tokens[2]
                 tokens[2] = tokens[3]
@@ -59,11 +63,9 @@ function compilador(codigo) {
                 temp = tokens[1]
                 tokens[1] = tokens[2]
                 tokens[2] = temp
-            } else if (type == 'i') {
+            } else if (type == 'r') {
                 //console.log('antes', tokens)
-                let aux = tokens[1]
-                tokens[1] = tokens[2]
-                tokens[2] = aux
+                tokens.push(tokens.splice(1, 1)[0])
                 //console.log('depois', tokens)
             }
         }
