@@ -19,7 +19,7 @@ const opcodes = {
   jr: "001011",
   jal: "001100",
   sll: "001101",
-  slr: "001110"
+  srl: "001110"
 };
 const register = {
   "$zero": "00000",
