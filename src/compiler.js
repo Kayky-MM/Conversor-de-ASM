@@ -23,19 +23,26 @@ class Instruction {
 }
 
 function type(opcode) {
-    if (!opcode)
-        return null
-    switch (opcode) {
-        case '000000':
-        case "001101":
-        case "001110":
-            return 'r'
-        case '000110':
-        case '001100':
-            return 'j'
-        default:
-            return 'i'
-    }
+    const r = [
+        'add', 'sub', 'and', 'or', 'slt',
+        'sll', 'srl','mul', 'div'
+    ];
+
+    const i = [
+        'addi', 'subi', 'muli', 'divi', 'slti', 'lw', 'sw',
+        'beq', 'bne', 'jr'
+    ];
+
+    const j = [
+        'j', 'jal'
+    ];
+    if(r.includes(opcode))
+        return 'r';
+    if(i.includes(opcode))
+        return 'i';
+    if(j.includes(opcode))
+        return 'j'
+    return null
 }
 function extensor(im, bitWidth, typeI) {
     im = Number(im)
@@ -66,7 +73,7 @@ function extensor(im, bitWidth, typeI) {
 }
 
 function compilerRInstruction(cluster) {
-    let opcode = opcodes[cluster.tokens[0]];
+    let opcode = configOpcode[cluster.tokens[0]];
     let rs, rt, rd, shamt, fcode;
     let invalidRegs = []
     if (cluster.tokens[0] == 'sll' || cluster.tokens[0] == 'srl') {
@@ -85,7 +92,7 @@ function compilerRInstruction(cluster) {
         if(!rt) invalidRegs.push(cluster.tokens[3])
         if(!rd) invalidRegs.push(cluster.tokens[1])
     }
-    fcode = funct[cluster.tokens[0]]
+    fcode = configFunct[cluster.tokens[0]]
     if (invalidRegs.length > 0) {
         return {
             error: '01101',
@@ -100,9 +107,8 @@ function compilerRInstruction(cluster) {
     }
     return new Instruction(cluster.originInstruction, opcode + rs + rt + rd + shamt + fcode)
 }
-
 function compilerIInstruction(cluster) {
-    let opcode = opcodes[cluster.tokens[0]]
+    let opcode = configOpcode[cluster.tokens[0]]
     let rs, rt, immediate
     let invalidRegs = []
     if (cluster.tokens[0] == 'jr') {
@@ -138,7 +144,7 @@ function compilerIInstruction(cluster) {
     return new Instruction(cluster.originInstruction, opcode + rs + rt + immediate)
 }
 function compilerJInstruction(cluster) {
-    let opcode = opcodes[cluster.tokens[0]]
+    let opcode = configOpcode[cluster.tokens[0]]
     let label = extensor(cluster.tokens[1], 26, 'j')
     if (!label)
         return {

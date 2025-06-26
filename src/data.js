@@ -1,4 +1,4 @@
-const opcodes = {
+const defaultOpcodes = Object.freeze({
   add: "000000",
   sub: "000000",
   mul: "000000",
@@ -6,22 +6,22 @@ const opcodes = {
   and: "000000",
   or: "000000",
   slt: "000000",
+  sll: "001101",
+  srl: "001110",
   addi: "000001",
   subi: "000010",
   muli: "000011",
   divi: "000100",
   beq: "000101",
-  j: "000110",
   lw: "000111",
   sw: "001000",
   bne: "001001",
   slti: "001010",
   jr: "001011",
-  jal: "001100",
-  sll: "001101",
-  srl: "001110"
-};
-const register = {
+  j: "000110",
+  jal: "001100"
+});
+const register = Object.freeze({
   "$zero": "00000",
   "$at": "00001",
   "$v0": "00010",
@@ -54,8 +54,8 @@ const register = {
   "$sp": "11101",
   "$fp": "11110",
   "$ra": "11111"
-};
-const registerN = {
+});
+const registerN = Object.freeze({
   '$0': '00000',
   '$1': '00001',
   '$2': '00010',
@@ -88,8 +88,8 @@ const registerN = {
   '$29': '11101',
   '$30': '11110',
   '$31': '11111'
-}
-const funct = {
+});
+const defaultFunct = Object.freeze({
   add: "000000",
   sub: "000001",
   mul: "000010",
@@ -98,5 +98,24 @@ const funct = {
   or: "000101",
   slt: "000110",
   sll: "000111",
-  slr: "001000"
-};
+  srl: "001000"
+});
+let configOpcode, configFunct;
+function restoreDefault(){
+    configFunct = {...defaultFunct};
+    configOpcode = {...defaultOpcodes};
+    localStorage.removeItem('ConfigOpcodes');
+    localStorage.removeItem('ConfigFunct');
+}
+function carregarDoLocalStorage() {
+    const op = JSON.parse(localStorage.getItem('ConfigOpcodes'));
+    const fn = JSON.parse(localStorage.getItem('ConfigFunct'));
+
+    if (op && fn && Object.values(op).every(code => /^[01]{6}$/.test(code)) && Object.values(fn).every(code => /^[01]{6}$/.test(code))) {
+        configOpcode = op;
+        configFunct = fn;
+    } else {
+        restoreDefault();
+    }
+}
+carregarDoLocalStorage();

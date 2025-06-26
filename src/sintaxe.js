@@ -54,30 +54,30 @@ function spellChecker(tokens, form, type) {
         return punctuation;
     for (let i = 1; i < form.args; i++) {
         if (!form.format[i].test(tokens[i])) {
-                return {
-                    error: '01011',
-                    msg: `Vírgula e/ou parêntesis em posição inesperada`
-                }
-            
+            return {
+                error: '01011',
+                msg: `Vírgula e/ou parêntesis em posição inesperada`
+            }
+
         }
     }
-    return null;//se não houver erro, retorna null
+    return null;
 }
 function formatting(tokens, tokenFormat) {
-    if (tokenFormat.args === 6) {//estrutura para i e r
+    if (tokenFormat.args === 6) {
         return `${tokens[0]} ${tokens[1]}, ${tokens[2]}, ${tokens[3]}`
-    } else if (tokenFormat.args === 7) {//estrutura para lw e sw
+    } else if (tokenFormat.args === 7) {
         return `${tokens[0]} ${tokens[1]}, ${tokens[2]}(${tokens[3]})`
-    } else {//estrutura para j e jr
+    } else {
         return `${tokens[0]} ${tokens[1]}`
     }
 }
 
 function validateTokens(tokens) {
     const validFormat = /^(-?\d+|\$[a-zA-Z0-9]+|,|\(|\))$/
-    for(let i = 1; i < tokens.length; i++){//pula o primeiro token que é a instrução, pois já foi validado
+    for (let i = 1; i < tokens.length; i++) {
         const token = tokens[i];
-        if(!validFormat.test(token)){
+        if (!validFormat.test(token)) {
             return {
                 error: '10011',
                 msg: `Elemento inválido na instrução: "${token}"`
@@ -94,18 +94,18 @@ function verifySyntax(instruction) {
     const tokens = instruction.toLowerCase().match(/[\w$-]+|[(),]/g)
 
     const op = tokens[0];
-    const opcode = type(opcodes[op]);//função que retorna 'r', 'i' ou 'j'
+    const opcode = type(op);
     if (!opcode) {
         return { error: '00010', msg: `Instrução desconhecida: "${op}"` };
     }
 
     const validationError = validateTokens(tokens)
-    if( validationError) {
+    if (validationError) {
         return validationError;
     }
 
     const regexes = {
-        validArg: /^-?[a-zA-Z0-9$]+$/,//instruction, register or number
+        validArg: /^-?[a-zA-Z0-9$]+$/,
         comma: /^,$/,
         lparen: /^\($/,
         rparen: /^\)$/
@@ -153,7 +153,12 @@ function assembler(code) {
                 getMessage: () => compilerResponse.msg
             }
         }
-        return compilerResponse
+        if (!/^[01]{32}$/.test(compilerResponse.getBinary()))
+            return {
+                success: false,
+                getMessage: () => `Algum problema impediu a compilação`
+            }
+        else return compilerResponse
 
     } else {
         return {
