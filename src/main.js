@@ -1,3 +1,19 @@
+function formateLine(instructionString) {
+    const regex = /(\$[a-zA-Z0-9]+)|(-?\b\d+\b)|(\b[a-zA-Z]+\b)|([\s.,()]+)/g;
+    return instructionString.replace(regex, (match, registerMatch, numberMatch, wordMatch, punctuationOrSpaceMatch) => {
+        if (registerMatch) {
+            return `<span class="register">${registerMatch}</span>`;
+        } else if (numberMatch) {
+            return `<span class="number">${numberMatch}</span>`;
+        } else if (wordMatch) {
+            return `<span class="instrucao">${wordMatch}</span>`;
+        } else if (punctuationOrSpaceMatch) {
+            return punctuationOrSpaceMatch;
+        }
+        return match;
+    });
+}
+
 function generate() {
     const textArea = document.getElementById('codigo')
     const conteudo = textArea.value.trim().split(/\n+/).map(l => l.trim()).filter(l => l.length > 0)
@@ -6,13 +22,13 @@ function generate() {
         output.innerHTML = ``;
         return;
     }
-    output.innerHTML = `<div class="line1">v2.0 raw </div>`
-    for (let i in conteudo) {
-        let objectFile = assembler(conteudo[i])
+    output.innerHTML = `<div class="line">v2.0 raw </div>`
+    for (const line of conteudo) {
+        let objectFile = assembler(line)
         if (objectFile.success === true) {
-            output.innerHTML += `<div class="line${i % 2}">${objectFile.getHex()} # ${objectFile.getOriginal()} ${objectFile.getBinary()}</div>`
+            output.innerHTML += `<div class="line"><span class="binary">${objectFile.getHex()}</span> # ${formateLine(objectFile.getOriginal())} <span class="binary">${objectFile.getBinary()}</span></div>`
         } else {
-            output.innerHTML += `<div class = "line${i % 2}">ERRO: ${objectFile.getMessage()}</div>`
+            output.innerHTML += `<div class = "line error">ERRO: ${objectFile.getMessage()}</div>`
             break;
         }
     }
@@ -54,7 +70,7 @@ function toggleConfig() {
         configModal.style.display = 'none';
     }
 }
-function toggleHelp(){
+function toggleHelp() {
     const configArea = document.querySelector('.config-area');
     const editArea = document.querySelector('.edit-area');
     const helpModal = document.getElementById('helpModal');
@@ -98,13 +114,13 @@ function loadTable() {
         `;
     }
 }
-function restore(){
+function restore() {
     restoreDefault();
     loadTable();
     alert('Configurações padrão restauradas!');
 }
 function highlightDuplicateFuncts() {
-    const functSpans = document.querySelectorAll('td:nth-child(4)'); 
+    const functSpans = document.querySelectorAll('td:nth-child(4)');
     const map = new Map();
     let repeated = false;
     functSpans.forEach(td => {
@@ -129,11 +145,11 @@ function highlightDuplicateFuncts() {
 }
 function highlightConflictingTypes() {
     const linhas = document.querySelectorAll('tbody tr');
-    const opcodeMap = new Map(); 
+    const opcodeMap = new Map();
     let repeated = false;
     linhas.forEach(tr => {
         const tdOpcode = tr.children[2];
-        tdOpcode.style.outline = 'none';
+        tdOpcode.classList.remove('conflict')
     });
 
     linhas.forEach(tr => {
@@ -155,7 +171,7 @@ function highlightConflictingTypes() {
         if (tipos.size > 1) {
             repeated = true;
             entradas.forEach(({ td }) => {
-                td.style.outline = '2px solid #4299e1';
+                td.classList.add('conflict')
             });
         }
     });
@@ -163,7 +179,7 @@ function highlightConflictingTypes() {
 }
 
 function highlightDuplicateOpcodes() {
-    const opcodeSpans = Array.from(document.querySelectorAll('td:nth-child(3)')).filter(td => td.parentElement.children[1].textContent.trim() !== 'R'); // Supondo que funct está na 4ª coluna
+    const opcodeSpans = Array.from(document.querySelectorAll('td:nth-child(3)')).filter(td => td.parentElement.children[1].textContent.trim() !== 'R');
     const map = new Map();
     let repeated = false;
     opcodeSpans.forEach(td => {
@@ -218,18 +234,24 @@ function saveConfigurations() {
 function save() {
     let repeatedFuncts = highlightDuplicateFuncts()
     let repeatedOpcodes = highlightDuplicateOpcodes();
-    if(repeatedFuncts || repeatedOpcodes){
+    if (repeatedFuncts || repeatedOpcodes) {
         alert('Há opcodes ou functs repetidos!');
         return;
     }
-    if(highlightConflictingTypes()){
+    if (highlightConflictingTypes()) {
         alert('Opcodes conflitantes!');
         return;
     }
     saveConfigurations();
     alert('Configurações salvas!');
 }
-
+function changeTheme() {
+    const moon = document.getElementById('moon')
+    moon.classList.toggle('theme')
+    document.getElementById('sun').classList.toggle('theme')
+    document.getElementById('theme-button').title = (moon.classList.contains('theme')) ? 'Tema claro' : 'Tema escuro'
+    document.querySelector('html').classList.toggle('dark-mode');
+}
 document.addEventListener('DOMContentLoaded', function () {
     loadTable();
     document.addEventListener('click', e => {

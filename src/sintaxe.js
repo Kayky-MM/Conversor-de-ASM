@@ -125,7 +125,7 @@ function verifySyntax(instruction) {
     if (result) {
         return result
     } else {
-        const tokensFiltered = tokens.filter(token => !token.match(/[,()]/)).map(t => (!isNaN(Number(t))) ? `${Number(t)}` : t)//filtra números do tipo 012 para 12
+        const tokensFiltered = tokens.filter(token => !token.match(/[,()]/)).map(t => (!isNaN(Number(t))) ? `${Number(t)}` : t)
         const originInstruction = formatting(tokensFiltered, tokenFormat)
         return {
             success: true,
