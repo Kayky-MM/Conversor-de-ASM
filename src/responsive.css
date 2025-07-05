@@ -1,0 +1,900 @@
+@media (min-width: 1300px) {
+    h1.second-title {
+        display: none;
+    }
+}
+
+@media (max-width: 1299px) {
+    .container {
+        width: min(80dvw, 800px);
+    }
+
+    body {
+        font-size: 16px;
+        padding: 0;
+    }
+
+    .container {
+        width: min(80dvw, 800px);
+        margin: 0 auto;
+        min-height: 700px;
+        max-height: 750px;
+    }
+
+    .config-area {
+        margin-top: 0;
+        max-height: 50px;
+    }
+
+    .edit-area {
+        flex-direction: column;
+        flex: 1 2;
+    }
+
+    .input-place {
+        max-height: 300px;
+    }
+
+    .right-side {
+        min-height: 300px;
+        max-height: 500px;
+    }
+
+    .window-bar {
+        display: none;
+    }
+
+    .panel-wrapper:last-child {
+        clip-path: none;
+    }
+
+    .panel-wrapper:first-child {
+        display: none;
+    }
+
+    .panel-clip-path {
+        clip-path: none;
+    }
+
+    .panel2 {
+        display: flex;
+        flex-direction: row;
+        justify-content: space-between;
+        clip-path: none;
+    }
+
+    .second-title {
+        display: block;
+        margin: auto 0 0 10px;
+    }
+
+    .config-buttons {
+        margin: 0;
+    }
+
+    .help-modal {
+        max-height: 100%;
+    }
+
+    .config-content {
+        width: min(650px, 100%);
+    }
+}
+
+@media (max-width: 767px) {
+    body {
+        font-size: 14px;
+    }
+
+    textarea {
+        font-size: 0.75em;
+    }
+
+    .container {
+        width: 100%;
+    }
+
+    .button-group {
+        flex-wrap: wrap;
+        justify-content: center;
+        align-items: stretch;
+    }
+
+    #configModal {
+        align-content: center;
+    }
+
+    .config-content {
+        width: 90%;
+        margin: 20px 5%;
+    }
+
+    .line {
+        font-size: 0.95rem;
+        padding: 0.4em 0.3em 0.1em 0.3em;
+    }
+
+}
+
+@media (max-width: 600px) {
+    .container {
+        width: 100%;
+    }
+
+    .config-buttons {
+        display: none;
+    }
+
+    .toggle-mobile {
+        margin-right: 0.5em;
+        align-self: flex-end;
+        display: block;
+        background-color: transparent;
+        border: none;
+        height: 90%;
+        margin-top: auto;
+        margin-bottom: auto;
+        padding: 0;
+    }
+
+    svg.menu {
+        width: 100%;
+        height: 100%;
+    }
+
+    .nav-bar {
+        background-color: var(--nav-bg);
+        color: var(--nav-text);
+        position: fixed;
+        top: 0;
+        right: -100%;
+        height: 100dvh;
+        width: min(15em, 100%);
+        z-index: 100;
+        border-left: 1px solid var(--nav-border);
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        padding-top: 2em;
+        transition: right 300ms ease;
+    }
+
+    .nav-bar.open {
+        right: 0;
+    }
+
+    .nav-bar ul {
+        list-style: none;
+        padding: 0;
+        margin: 0;
+        width: 100%;
+    }
+
+    .nav-bar li {
+        width: 100%;
+        text-align: center;
+        margin: 0;
+    }
+
+    .nav-bar a {
+        text-decoration: none;
+        color: var(--nav-text);
+        font-size: 1.2em;
+        font-weight: bold;
+        display: block;
+        padding: 1em;
+        width: 100%;
+        transition: background-color 0.2s ease;
+    }
+
+    .nav-bar a:hover {
+        background-color: rgba(0, 0, 0, 0.1);
+    }
+
+    .close-nav {
+        background: transparent;
+        border: none;
+        padding: 10px;
+        cursor: pointer;
+        color: var(--nav-text);
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        margin-left: 5px;
+        margin-right: auto;
+        margin-top: 5px;
+        margin: 5px auto 5px 5px;
+        transition: transform 0.2s ease, background-color 0.2s ease;
+    }
+
+    .close-nav:hover {
+        background-color: rgba(0, 0, 0, 0.1);
+        transform: scale(1.1);
+    }
+
+    .close-nav svg {
+        width: 24px;
+        height: 24px;
+        stroke: currentColor;
+    }
+
+    .panel2 {
+        position: relative;
+        justify-content: space-between;
+    }
+
+    .config-content {
+        width: 100%;
+        margin: 20px 0;
+    }
+
+    td {
+        padding: 0.5em 0.6em;
+        text-align: center;
+        border: 1px solid var(--table-border);
+    }
+
+    .bit {
+        width: calc(16.6% - 0.3em);
+    }
+
+}
+
+@media (max-width: 500px) {
+    td {
+        padding: 0.4em 0.5em;
+        text-align: center;
+        border: 1px solid var(--table-border);
+    }
+
+    th {
+        font-size: 0.75em;
+    }
+
+    .bit {
+        width: calc(33.2% - 0.2em);
+        min-width: 20px;
+    }
+}
+
+@media (max-width: 426px) {
+
+    .button-group svg {
+        display: none;
+    }
+
+    h1.second-title {
+        margin: 0 auto;
+        font-size: clamp(1rem, 1.2rem, 1.3rem);
+    }
+
+    .container {
+        min-height: 710px;
+    }
+
+    .button-group {
+        flex-direction: row;
+        justify-content: space-between;
+        gap: 10px;
+        padding: 10px;
+        margin-bottom: 10px;
+    }
+
+    .button-group button {
+        font-size: 0.75em;
+        padding: 8px 12px;
+        width: 100px;
+    }
+
+    .edit-area {
+        flex: 1 1;
+    }
+
+    .input-place,
+    .right-side {
+        flex: 1;
+        height: auto;
+        min-height: 0;
+        max-height: 50%;
+    }
+
+    .config-content {
+        width: 100%;
+    }
+
+    .toggle-mobile {
+        margin-right: 0.5em;
+        align-self: flex-end;
+        display: block;
+        background-color: transparent;
+        border: none;
+        height: 90%;
+        margin-top: auto;
+        margin-bottom: auto;
+        width: 40px;
+        padding: 0;
+    }
+
+    svg.menu {
+        width: 100%;
+        height: 100%;
+    }
+
+    .nav-bar {
+        background-color: var(--nav-bg);
+        color: var(--nav-text);
+        position: fixed;
+        top: 0;
+        right: -100%;
+        height: 100dvh;
+        width: min(15em, 100%);
+        z-index: 100;
+        border-left: 1px solid var(--nav-border);
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        padding-top: 2em;
+        transition: right 300ms ease;
+    }
+
+    .nav-bar.open {
+        right: 0;
+    }
+
+    .nav-bar ul {
+        list-style: none;
+        padding: 0;
+        margin: 0;
+        width: 100%;
+    }
+
+    .nav-bar li {
+        width: 100%;
+        text-align: center;
+        margin: 0;
+    }
+
+    .nav-bar a {
+        text-decoration: none;
+        color: var(--nav-text);
+        font-size: 1.2em;
+        font-weight: bold;
+        display: block;
+        padding: 1em;
+        width: 100%;
+        transition: background-color 0.2s ease;
+    }
+
+    .nav-bar a:hover {
+        background-color: rgba(0, 0, 0, 0.1);
+    }
+
+    .close-nav {
+        background: transparent;
+        border: none;
+        padding: 10px;
+        cursor: pointer;
+        color: var(--nav-text);
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        margin-left: 5px;
+        margin-right: auto;
+        margin-top: 5px;
+        margin: 5px auto 5px 5px;
+        transition: transform 0.2s ease, background-color 0.2s ease;
+    }
+
+    .close-nav:hover {
+        background-color: rgba(0, 0, 0, 0.1);
+        transform: scale(1.1);
+    }
+
+    .close-nav svg {
+        width: 24px;
+        height: 24px;
+        stroke: currentColor;
+    }
+
+
+    td {
+        padding: 0.4em 0.5em;
+        text-align: center;
+        border: 1px solid var(--table-border);
+    }
+
+    th {
+        font-size: 0.75em;
+    }
+
+    .bit {
+        width: calc(33.2% - 0.2em);
+        min-width: 20px;
+    }
+
+    footer {
+        flex: 1 1;
+        margin-top: 50px;
+    }
+
+}
+
+@media (min-width: 1300px) and (max-height: 626px) {
+
+    html,
+    body {
+        margin: 0;
+        padding: 0;
+        height: 100%;
+        display: flex;
+        flex-direction: column;
+    }
+
+    h1.second-title {
+        display: none;
+    }
+
+    .container {
+        display: flex;
+        flex-direction: column;
+        align-items: flex-start;
+        margin: 10px auto auto auto;
+        width: 1300px;
+        flex: 1;
+        height: 90%;
+        background-color: var(--container-bg);
+        padding: 0;
+        border: 2px solid var(--container-border);
+        box-shadow: 0 4px 10px var(--container-shadow);
+        border-radius: 6px;
+        overflow: hidden;
+    }
+
+    .window-bar {
+        flex-basis: 4.25%;
+    }
+
+    .config-area {
+        margin-top: 0;
+        flex-basis: 8.5%;
+    }
+
+    .edit-area {
+        flex-basis: 87.35%;
+        height: clamp(200px, 100%, 510px);
+    }
+
+    .input-place,
+    .right-side {
+        height: 100%;
+    }
+
+    .toggle-mobile {
+        margin-right: 0.5em;
+        align-self: flex-end;
+        display: block;
+        background-color: transparent;
+        border: none;
+        height: 90%;
+        margin-top: auto;
+        margin-bottom: auto;
+        width: 40px;
+        padding: 0;
+    }
+
+    svg.menu {
+        width: 100%;
+        height: 100%;
+    }
+
+    .nav-bar {
+        background-color: var(--nav-bg);
+        color: var(--nav-text);
+        position: fixed;
+        top: 0;
+        right: -100%;
+        height: 100dvh;
+        width: min(15em, 100%);
+        z-index: 100;
+        border-left: 1px solid var(--nav-border);
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        padding-top: 2em;
+        transition: right 300ms ease;
+    }
+
+    .nav-bar.open {
+        right: 0;
+    }
+
+    .nav-bar ul {
+        list-style: none;
+        padding: 0;
+        margin: 0;
+        width: 100%;
+    }
+
+    .nav-bar li {
+        width: 100%;
+        text-align: center;
+        margin: 0;
+    }
+
+    .nav-bar a {
+        text-decoration: none;
+        color: var(--nav-text);
+        font-size: 1.2em;
+        font-weight: bold;
+        display: block;
+        padding: 1em;
+        width: 100%;
+        transition: background-color 0.2s ease;
+    }
+
+    .nav-bar a:hover {
+        background-color: rgba(0, 0, 0, 0.1);
+    }
+
+    .close-nav {
+        background: transparent;
+        border: none;
+        padding: 10px;
+        cursor: pointer;
+        color: var(--nav-text);
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        margin-left: 5px;
+        margin-right: auto;
+        margin-top: 5px;
+        margin: 5px auto 5px 5px;
+        transition: transform 0.2s ease, background-color 0.2s ease;
+    }
+
+    .close-nav:hover {
+        background-color: rgba(0, 0, 0, 0.1);
+        transform: scale(1.1);
+    }
+
+    .close-nav svg {
+        width: 24px;
+        height: 24px;
+        stroke: currentColor;
+    }
+
+}
+
+@media (max-width: 1299px) and (max-height: 626px) {
+
+    html,
+    body {
+        margin: 0;
+        padding: 0;
+        height: 100%;
+        display: flex;
+        flex-direction: column;
+    }
+
+    .container {
+        display: flex;
+        flex-direction: column;
+        align-items: flex-start;
+        width: min(100dvw, 800px);
+        margin: 0 auto;
+        height: 90%;
+        padding: 0;
+    }
+
+    .config-area {
+        margin-top: 0;
+        flex-basis: 8.5%;
+    }
+
+    .edit-area {
+        flex-direction: column;
+        flex: 1 2 81.5%;
+        height: clamp(200px, 100%, 510px);
+    }
+
+    .input-place,
+    .right-side {
+        height: 100%;
+    }
+
+    .window-bar {
+        display: none;
+    }
+
+    .panel-wrapper:last-child {
+        clip-path: none;
+    }
+
+    .panel-wrapper:first-child {
+        display: none;
+    }
+
+    .panel-clip-path {
+        clip-path: none;
+    }
+
+    .panel2 {
+        display: flex;
+        flex-direction: row;
+        justify-content: space-between;
+        clip-path: none;
+    }
+
+    .second-title {
+        display: block;
+        margin: auto 0 0 20px;
+    }
+
+    .config-buttons {
+        margin: 0;
+    }
+
+    .help-modal {
+        max-height: 100%;
+    }
+
+    .config-modal {
+        align-content: center;
+    }
+
+    .config-content {
+        width: min(650px, 100%);
+        margin: 20px auto;
+    }
+
+    footer {
+        flex: 1 1;
+        margin-top: 50px;
+    }
+
+}
+
+@media (max-width: 767px) and (min-width: 601px) and (max-height: 626px) {
+
+    html,
+    body {
+        margin: 0;
+        padding: 0;
+        height: 100%;
+        display: flex;
+        flex-direction: column;
+    }
+
+    textarea {
+        font-size: 0.75em;
+    }
+
+    .container {
+        display: flex;
+        flex-direction: column;
+        align-items: flex-start;
+        margin: 10px auto auto auto;
+        flex: 1;
+        height: 90%;
+        width: 100%;
+        background-color: var(--container-bg);
+        padding: 0;
+        border: 2px solid var(--container-border);
+        box-shadow: 0 4px 10px var(--container-shadow);
+        border-radius: 6px;
+        overflow: hidden;
+    }
+
+    .window-bar {
+        flex-basis: 4.25%;
+    }
+
+    .config-area {
+        margin-top: 0;
+        flex-basis: 8.5%;
+    }
+
+    .edit-area {
+        height: clamp(200px, 100%, 510px);
+    }
+
+    .input-place,
+    .right-side {
+        height: 100%;
+    }
+
+    .button-group {
+        flex-wrap: wrap;
+        justify-content: center;
+        align-items: stretch;
+    }
+
+    .line {
+        font-size: 0.95rem;
+        padding: 0.4em 0.3em 0.1em 0.3em;
+    }
+
+    #configModal {
+        align-content: center;
+    }
+
+    .config-content {
+        width: 90%;
+        margin: 20px 5%;
+    }
+
+    footer {
+        flex: 1 1;
+        margin-top: 50px;
+    }
+
+}
+
+@media (max-width: 600px) and (min-width: 426px) and (max-height: 626px) {
+
+    html,
+    body {
+        margin: 0;
+        padding: 0;
+        height: 100%;
+        display: flex;
+        flex-direction: column;
+    }
+
+    .container {
+        display: flex;
+        flex-direction: column;
+        align-items: flex-start;
+        margin: 10px auto auto auto;
+        flex: 1;
+        height: 90%;
+        width: 100%;
+        background-color: var(--container-bg);
+        padding: 0;
+        border: 2px solid var(--container-border);
+        box-shadow: 0 4px 10px var(--container-shadow);
+        border-radius: 6px;
+        overflow: hidden;
+    }
+
+    .window-bar {
+        flex-basis: 4.25%;
+    }
+
+    .config-area {
+        margin-top: 0;
+        flex-basis: 8.5%;
+    }
+
+    .edit-area {
+        height: clamp(200px, 100%, 510px);
+    }
+
+    .input-place,
+    .right-side {
+        height: 100%;
+    }
+
+    .line {
+        max-height: 3em;
+    }
+
+    .config-buttons {
+        display: none;
+    }
+
+    .panel2 {
+        justify-content: space-between;
+    }
+
+    .toggle-mobile {
+        margin-right: 0.5em;
+        align-self: flex-end;
+        display: block;
+        background-color: transparent;
+        border: none;
+        height: 90%;
+        margin-top: auto;
+        margin-bottom: auto;
+        width: 40px;
+        padding: 0;
+    }
+
+    svg.menu {
+        width: 100%;
+        height: 100%;
+    }
+
+    .nav-bar {
+        background-color: var(--nav-bg);
+        color: var(--nav-text);
+        position: fixed;
+        top: 0;
+        right: -100%;
+        height: 100dvh;
+        width: min(15em, 100%);
+        z-index: 100;
+        border-left: 1px solid var(--nav-border);
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        padding-top: 2em;
+        transition: right 300ms ease;
+    }
+
+    .nav-bar.open {
+        right: 0;
+    }
+
+    .nav-bar ul {
+        list-style: none;
+        padding: 0;
+        margin: 0;
+        width: 100%;
+    }
+
+    .nav-bar li {
+        width: 100%;
+        text-align: center;
+        margin: 0;
+    }
+
+    .nav-bar a {
+        text-decoration: none;
+        color: var(--nav-text);
+        font-size: 1.2em;
+        font-weight: bold;
+        display: block;
+        padding: 1em;
+        width: 100%;
+        transition: background-color 0.2s ease;
+    }
+
+    .nav-bar a:hover {
+        background-color: rgba(0, 0, 0, 0.1);
+    }
+
+    .close-nav {
+        background: transparent;
+        border: none;
+        padding: 10px;
+        cursor: pointer;
+        color: var(--nav-text);
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        margin-left: 5px;
+        margin-right: auto;
+        margin-top: 5px;
+        margin: 5px auto 5px 5px;
+        transition: transform 0.2s ease, background-color 0.2s ease;
+    }
+
+    .close-nav:hover {
+        background-color: rgba(0, 0, 0, 0.1);
+        transform: scale(1.1);
+    }
+
+    .close-nav svg {
+        width: 24px;
+        height: 24px;
+        stroke: currentColor;
+    }
+
+
+    .config-content {
+        width: 100%;
+        margin: 20px 0;
+    }
+
+    td {
+        padding: 0.5em 0.6em;
+        text-align: center;
+        border: 1px solid var(--table-border);
+    }
+
+    .bit {
+        width: calc(16.6% - 0.3em);
+    }
+
+}

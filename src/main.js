@@ -26,7 +26,10 @@ function generate() {
     for (const line of conteudo) {
         let objectFile = assembler(line)
         if (objectFile.success === true) {
-            output.innerHTML += `<div class="line"><span class="binary">${objectFile.getHex()}</span> # ${formateLine(objectFile.getOriginal())} <span class="binary">${objectFile.getBinary()}</span></div>`
+            output.innerHTML += `<div class="line">
+            <span class="binary">${objectFile.getHex()}</span> # ${formateLine(objectFile.getOriginal())} 
+            <span class="binary">${objectFile.getBinary()}</span>
+            </div>`
         } else {
             output.innerHTML += `<div class = "line error">ERRO: ${objectFile.getMessage()}</div>`
             break;
@@ -58,15 +61,20 @@ function download() {
 function toggleConfig() {
     const configArea = document.querySelector('.config-area');
     const editArea = document.querySelector('.edit-area');
+    const helpModal = document.getElementById('helpModal');
     const configModal = document.getElementById('configModal');
+    const buttonGroup = document.querySelector('.button-group');
     if (configModal.style.display === 'none') {
         editArea.style.display = 'none';
         configArea.style.display = 'none';
+        buttonGroup.style.display = 'none';
+        helpModal.style.display = 'none';
         loadTable();
         configModal.style.display = 'block';
     } else {
         editArea.style.display = 'flex';
         configArea.style.display = 'flex';
+        buttonGroup.style.display = 'flex';
         configModal.style.display = 'none';
     }
 }
@@ -74,13 +82,19 @@ function toggleHelp() {
     const configArea = document.querySelector('.config-area');
     const editArea = document.querySelector('.edit-area');
     const helpModal = document.getElementById('helpModal');
+    const configModal = document.getElementById('configModal');
+    const buttonGroup = document.querySelector('.button-group');
     if (helpModal.style.display === 'none') {
         editArea.style.display = 'none';
         configArea.style.display = 'none';
+        buttonGroup.style.display = 'none';
+        configModal.style.display = 'none';
         helpModal.style.display = 'block';
     } else {
         editArea.style.display = 'flex';
         configArea.style.display = 'flex';
+        buttonGroup.style.display = 'flex';
+        configModal.style.display = 'none';
         helpModal.style.display = 'none';
     }
 }
@@ -119,6 +133,7 @@ function restore() {
     loadTable();
     alert('Configurações padrão restauradas!');
 }
+
 function highlightDuplicateFuncts() {
     const functSpans = document.querySelectorAll('td:nth-child(4)');
     const map = new Map();
@@ -245,31 +260,62 @@ function save() {
     saveConfigurations();
     alert('Configurações salvas!');
 }
+
+function toggleNav() {
+  document.querySelector('.nav-bar').classList.toggle('open');
+}
+
 function changeTheme() {
     const moon = document.getElementById('moon')
     moon.classList.toggle('theme')
     document.getElementById('sun').classList.toggle('theme')
     document.getElementById('theme-button').title = (moon.classList.contains('theme')) ? 'Tema claro' : 'Tema escuro'
+    document.querySelector('.nav-3').innerHTML = (moon.classList.contains('theme')) ? 'Tema claro' : 'Tema escuro';
     document.querySelector('html').classList.toggle('dark-mode');
 }
+
+function rearrangeMobile() {
+    const container = document.querySelector('.container');
+    const configArea = document.querySelector('.config-area');
+    const buttonGroup = document.querySelector('.button-group');
+    const rightSide = document.querySelector('.right-side');
+    if (window.innerWidth <= 426 ) {
+        if (configArea.nextElementSibling !== buttonGroup) {
+            container.insertBefore(buttonGroup, configArea.nextElementSibling);
+        }
+    }else{
+        if(configArea.nextElementSibling === buttonGroup) {
+            rightSide.appendChild(buttonGroup);
+        }
+    }
+}
+
+let timeoutId;
+window.addEventListener('resize', () => {
+  clearTimeout(timeoutId);
+  timeoutId = setTimeout(rearrangeMobile, 100);
+});
 document.addEventListener('DOMContentLoaded', function () {
+    rearrangeMobile();
     loadTable();
     document.addEventListener('click', e => {
         if (e.target.classList.contains('bit')) {
             e.target.textContent = e.target.textContent === '0' ? '1' : '0'
         }
     })
-
     const botaoCopiar = document.querySelector('.copy');
     const conteudo = document.getElementById('copy-area');
     botaoCopiar.addEventListener('click', function () {
-        const texto = conteudo.innerText;
-
+        const texto = conteudo.innerText.trim();
+        if(!texto || texto.includes('ERRO')) {
+            return;
+        }
         navigator.clipboard.writeText(texto)
             .catch(err => {
                 console.error('Falha ao copiar para a área de transferência: ', err);
                 alert('Erro ao copiar o conteúdo.');
             });
+        alert('Conteúdo copiado para a área de transferência!');
     });
 
 });
