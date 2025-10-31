@@ -266,12 +266,9 @@ function toggleNav() {
 }
 
 function changeTheme() {
-    const moon = document.getElementById('moon')
-    moon.classList.toggle('theme')
-    document.getElementById('sun').classList.toggle('theme')
-    document.getElementById('theme-button').title = (moon.classList.contains('theme')) ? 'Tema claro' : 'Tema escuro'
-    document.querySelector('.nav-3').innerHTML = (moon.classList.contains('theme')) ? 'Tema claro' : 'Tema escuro';
-    document.querySelector('html').classList.toggle('dark-mode');
+    let chosenTheme = (html.classList.contains('dark-mode')) ? 'Tema claro' : 'Tema escuro';
+    setTheme(chosenTheme);
+    localStorage.setItem('preferTheme', chosenTheme);
 }
 
 function rearrangeMobile() {

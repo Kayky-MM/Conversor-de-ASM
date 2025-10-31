@@ -101,6 +101,7 @@ const defaultFunct = Object.freeze({
   srl: "001000"
 });
 let configOpcode, configFunct;
+const html = document.querySelector('html');
 function restoreDefault(){
     configFunct = {...defaultFunct};
     configOpcode = {...defaultOpcodes};
@@ -118,4 +119,34 @@ function carregarDoLocalStorage() {
         restoreDefault();
     }
 }
+
+function setTheme(chosenTheme){
+    if(chosenTheme === 'Tema claro'){
+        document.getElementById('sun').classList.add('theme')
+        document.getElementById('moon').classList.remove('theme')
+        html.classList.remove('dark-mode')
+    }else if(chosenTheme === 'Tema escuro'){
+        document.getElementById('sun').classList.remove('theme')
+        document.getElementById('moon').classList.add('theme')
+        html.classList.add('dark-mode')
+    }else{
+        return;
+    }
+    document.getElementById('theme-button').title = chosenTheme;
+    document.querySelector('.nav-3').innerHTML = chosenTheme;
+}
+
+function preferTheme(){
+  const theme = localStorage.getItem('preferTheme')
+  if(theme != null){
+    setTheme(theme)
+    return;
+  }
+  if(window.matchMedia("(prefers-color-scheme: dark)").matches){
+    setTheme('Tema escuro')
+  }else{
+    setTheme('Thema claro')
+  }
+}
+preferTheme();
 carregarDoLocalStorage();
